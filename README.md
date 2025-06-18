@@ -1,59 +1,194 @@
-# RandomWordAngular
+# RAMDOM-WORD-ANGULAR
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.10.
+## TP Angular : mots aléatoires & filtre dynamique (avec schéma)
 
-## Development server
+🎯 **Objectif :**  
+Crée une app Angular 20 pour afficher des mots aléatoires grâce à une API, en combinant composants, services, routes et **two-way binding** pour un filtrage en direct.
 
-To start a local development server, run:
+🌐 **API :** [https://www.trouve-mot.fr](https://www.trouve-mot.fr/)
 
-```bash
-ng serve
+---
+
+### 💻 Flux des données & interactions (diagramme simplifié)
+
+```mermaid
+graph TD
+  A[Utilisateur: saisie filtre / clic bouton] -->|Two-way binding| B[(WordListComponent)]
+  B -->|Appel méthode| C[WordApiService]
+  C -->|Requête HTTP| D[API trouve-mot.fr]
+  D -->|Réponse| C
+  C -->|Observable| B
+  B -->|Affichage filtré| E[Template HTML *ngFor + filtre]
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+### 📌 Schéma des fichiers de `app/` avec rôle de chacun
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```mermaid
+graph LR
+  A[app/]
+  A --> B[app.component.ts : 
+  Composant racine, 
+  logique générale]
+  A --> C[app.component.html : 
+  Template principal,
+  header/footer + router-outlet]
+  A --> D[app-routing.module.ts :
+  Routes ex : /words vers WordListComponent]
+  A --> EC[word : 
+  Module Word]
+  EC --> E[word-list/ : 
+  Composant affichage des mots]
+  E --> F[word-list.component.ts : 
+  Logique affichage + filtre]
+  E --> G[word-list.component.html : 
+  Template liste + input + bouton]
+  EC --> ES[service: 
+  Les service de word module]
+  ES --> H[word-api.service.ts : 
+  Service API externe]
+  ES --> I[models/word.ts : 
+  Interface Word]
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
+### 📌 Schéma de progression (flux des étapes)
+
+```mermaid
+graph TD
+  A[Étape 1 : Mise en place du projet : ng new + header/footer + composants + service + route + interface]
+  B[Étape 2 : Afficher 10 mots : getRandomWord + ngOnInit + *ngFor]
+  C[Étape 3 : Ajout du filtre : Two-way binding avec ngModel]
+  D[Étape 4 : Ajout du bouton: Bouton + regenerateWords]
+
+  A --> B
+  B --> C
+  C --> D
 ```
 
-## Building
+---
 
-To build the project run:
+### 🚀 Étape 1 : Mise en place du projet
 
-```bash
-ng build
+- `ng new mon-projet` (avec routing)
+
+- Ajoute `header` et `footer`
+
+- `ng generate component word-list`
+
+- `ng generate service word-api`
+
+- Route `/words`
+
+- Interface exemple : `Word { word: string }` À toi de réaliser l’interface correspondant aux données retournées par le endpoint de génération des mots.
+
+---
+
+### 🚀 Étape 2 : Afficher une liste de 10 mots
+
+- Crée la méthode `getRandomWord()` dans le service pour interroger l’API.
+
+- Dans `word-list.component.ts`, récupère les mots dans `ngOnInit()`.
+
+- Dans `word-list.component.html`, affiche les mots avec :
+
+Explication : let word déclare une variable locale représentant l'élément courant de l'itération sur wordRandomList ; syntaxe Angular pour boucler sur un tableau dans un template.
+
+```html
+<ul>
+  <li *ngFor="let word of wordRandomList">{{ word.word }}</li>
+</ul>
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+### 🚀 Étape 3 : Ajout du two-way binding (filtre)
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- Ajoute un champ `filterText: string = "";`
 
-```bash
-ng test
+- Dans le template :
+
+```html
+<input [(ngModel)]="filterText" placeholder="Filtrer les mots">
+<ul>
+  <li *ngFor="let word of wordRandomList | filter: filterText">{{ word.word }}</li>
+</ul>
 ```
 
-## Running end-to-end tests
+---
 
-For end-to-end (e2e) testing, run:
+### 🚀 Étape 4 : Ajout du bouton de régénération
 
-```bash
-ng e2e
+- Dans le template :
+
+```html
+<button (click)="regenerateWords()">Nouveaux mots</button>
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+- Implémente la méthode `regenerateWords()` pour relancer `getRandomWord()`.
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Ressources des étapes
+
+### 🔹 Création du projet
+
+- **Commande :** `ng new mon-projet` (avec routing)
+
+- **Doc :** [Angular CLI - ng new](https://angular.dev/installation#create-a-new-project)
+
+---
+
+### 🔹 Ajout du header et footer
+
+- **Doc :** [Angular - Template Syntax](https://angular.dev/guide/templates)
+
+---
+
+### 🔹 Génération du composant `word-list`
+
+- **Commande :** `ng generate component word-list`
+
+- **Doc :** [Angular CLI - generate component](https://angular.dev/cli/generate/component)
+
+---
+
+### 🔹 Génération du service `word-api`
+
+- **Commande :** `ng generate service word-api`
+
+- **Doc :** [Angular CLI - generate service](https://angular.dev/cli/generate/service)
+
+---
+
+### 🔹 Configuration de la route `/words`
+
+- **Doc :** [Angular - Routing & Navigation](https://angular.dev/guide/routing/define-routes#managing-routes-in-your-application)
+
+---
+
+### 🔹 Déclaration de l’interface `Word`
+
+- **Exemple :** `export interface Word { word: string; }`
+
+- **Doc :** [TypeScript - Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)
+
+---
+
+### 🔹 Méthode `getRandomWord()` dans le service
+
+- **Doc :** [Angular - HttpClient](https://angular.dev/guide/http)
+
+---
+
+### 🔹 Template avec two-way binding et affichage dynamique
+
+- **Exemple :** `<input [(ngModel)]="filterText">`
+
+- **Doc :** [Angular - Forms](https://angular.dev/guide/forms)
+
+- **Doc :** [Angular (*ngFor)](https://angular.dev/api/common/NgFor#description)
+
+---
