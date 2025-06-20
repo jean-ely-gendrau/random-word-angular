@@ -106,7 +106,7 @@ Explication : let word déclare une variable locale représentant l'élément co
 
 ### 🚀 Étape 3 : Ajout du two-way binding (filtre)
 
-- Ajoute un champ `filterText: string = "";`
+- Dans `word-list.component.ts`, Ajoute un champ `filterText: string = "";`
 
 - Dans le template :
 
@@ -127,7 +127,7 @@ Explication : let word déclare une variable locale représentant l'élément co
 <button (click)="regenerateWords()">Nouveaux mots</button>
 ```
 
-- Implémente la méthode `regenerateWords()` pour relancer `getRandomWord()`.
+- Dans `word-list.component.ts`, Implémente la méthode `regenerateWords()` pour relancer `getRandomWord()`.
 
 ---
 
