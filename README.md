@@ -54,22 +54,6 @@ graph LR
 
 ---
 
-### 📌 Schéma de progression (flux des étapes)
-
-```mermaid
-graph TD
-  A[Étape 1 : Mise en place du projet : ng new + header/footer + composants + service + route + interface]
-  B[Étape 2 : Afficher 10 mots : getRandomWord + ngOnInit + *ngFor]
-  C[Étape 3 : Ajout du filtre : Two-way binding avec ngModel]
-  D[Étape 4 : Ajout du bouton: Bouton + regenerateWords]
-
-  A --> B
-  B --> C
-  C --> D
-```
-
----
-
 ### 🚀 Étape 1 : Mise en place du projet
 
 - `ng new mon-projet` (avec routing)
