@@ -76,9 +76,10 @@ graph TD
 
 - Ajoute `header` et `footer`
 
-- `ng generate component word-list`
+**Spécifier le chemin `word/component/` dans la commande de génération permet d’organiser la structure du projet dès la création du composant, sans avoir à la modifier par la suite.**
+- `ng generate component word/component/word-list`
 
-- `ng generate service word-api`
+- `ng generate service word/service/word-api`
 
 - Route `/words`
 
